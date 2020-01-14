@@ -1,5 +1,4 @@
-import firebase from 'firebase/app'
-import 'firebase/firestore'
+
 
 // Your web app's Firebase configuration
 const fire_Config = {
@@ -13,6 +12,6 @@ const fire_Config = {
     measurementId: "G-63ZTSX6FP4"
 };
 // Initialize Firebase
-firebase.initializeApp(fire_Config);
 
 
+export default fire_Config
