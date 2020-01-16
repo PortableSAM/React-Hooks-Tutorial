@@ -14,22 +14,27 @@ function Create() {
     currentTime: firebase.firestore.Timestamp.fromDate(new Date())
   };
 
-  const onCreate = e => {
-    e.preventDefault();
+  const onCreate = event => {
     const newPost = {
       Title: title,
       Auth: auth,
       Post: post,
       Date: Time
     };
-    if (newPost === null) {
-      console.log("Not Data");
-    } else {
-      const db = firebase.firestore();
-      db.collection("Boards").add(newPost);
+    event.preventDefault();
+
+    const db = firebase.firestore();
+    try {
+      db.collection("Boards")
+        .doc()
+        .set(newPost);
+      alert("Post 전송 완료");
+    } catch (error) {
+      console.error("Not Data", error);
+      alert("실패, 데이터가 없습니다.");
     }
   };
-  console.log(title);
+  console.log(onCreate.length);
   return (
     <Container>
       <Form>
@@ -41,7 +46,7 @@ function Create() {
             id="postTitle"
             placeholder="Title"
             defaultValue={setTitle}
-            onChange={e => setTitle(e.target.value)}
+            onChange={event => setTitle(event.target.value)}
           />
         </FormGroup>
         <FormGroup>
@@ -52,7 +57,7 @@ function Create() {
             id="postAuthor"
             placeholder="Auhtor"
             defaultValue={setAuth}
-            onChange={e => setAuth(e.target.value)}
+            onChange={event => setAuth(event.target.value)}
           />
         </FormGroup>
         <FormGroup>
@@ -62,27 +67,19 @@ function Create() {
             name="post"
             id="PostText"
             defaultValue={setPost}
-            onChange={e => setPost(e.target.value)}
+            onChange={event => setPost(event.target.value)}
           />
         </FormGroup>
       </Form>
+
       <button
         className="btn btn-outline-warning"
         onClick={onCreate}
         type="Submit"
-        style={{ padding: "0", width: "95px", height: "40px" }}
       >
-        <Link
-          to="/"
-          style={{
-            padding: "9px 22px",
-            textDecoration: "none",
-            color: "gray"
-          }}
-        >
-          Submit
-        </Link>
+        <Link to="/">Submit</Link>
       </button>
+
       <Link to="/">
         <button className="btn btn-outline-primary">Cancel</button>
       </Link>
